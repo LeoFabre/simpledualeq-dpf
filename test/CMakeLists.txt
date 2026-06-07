@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.22)
+if(NOT DEFINED PROJECT_NAME)
+    project(simpledualeq_tests CXX)
+    enable_testing()
+endif()
+
+set(SDEQ_DSP_DIR    ${CMAKE_CURRENT_SOURCE_DIR}/../dsp)
+set(SDEQ_PLUGIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../plugin)
+
+function(sdeq_add_test name)
+    add_executable(${name} ${name}.cpp)
+    target_include_directories(${name} PRIVATE ${SDEQ_DSP_DIR} ${SDEQ_PLUGIN_DIR})
+    target_compile_features(${name} PRIVATE cxx_std_17)
+    add_test(NAME ${name} COMMAND ${name})
+endfunction()
+
+sdeq_add_test(test_dsp_math)
+sdeq_add_test(test_biquad)
+sdeq_add_test(test_parametric_eq)
+sdeq_add_test(test_plugin_offline)
